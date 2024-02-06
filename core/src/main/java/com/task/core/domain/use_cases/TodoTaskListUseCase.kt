@@ -1,7 +1,7 @@
 package com.task.core.domain.use_cases
 
 import com.task.core.domain.model.UniversityList
-import com.task.core.domain.repository.UniversityRepository
+import com.task.core.domain.repository.TodoTaskRepository
 import com.task.core.util.ResponseState
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
@@ -10,7 +10,7 @@ import java.io.IOException
 import javax.inject.Inject
 
 class UniversityListUseCase @Inject constructor(
-    private val universityRepository: UniversityRepository,
+    private val universityRepository: TodoTaskRepository,
 ) {
     operator fun invoke(): Flow<ResponseState<List<UniversityList>>> = flow {
         try {
