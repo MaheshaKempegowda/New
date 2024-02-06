@@ -1,8 +1,8 @@
 package com.task.core.domain.repository
 
-import com.task.core.data.dto.UniversityListDTO
+import com.task.core.data.dto.TodoTaskListDTO
 
 
-interface UniversityRepository {
-    suspend fun getAllUniversity(): UniversityListDTO
+interface TodoTaskRepository {
+    suspend fun getAllTodoTasks(): TodoTaskListDTO
 }

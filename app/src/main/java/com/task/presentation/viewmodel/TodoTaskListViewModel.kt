@@ -2,7 +2,7 @@ package com.task.presentation.viewmodel
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.task.core.domain.use_cases.UniversityListUseCase
+import com.task.core.domain.use_cases.TodoTaskListUseCase
 import com.task.core.util.ResponseState
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
@@ -11,37 +11,34 @@ import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
-/** This universityList View model is used to fetch
- * the data from the universityListUseCase
+/** This TodoTaskList View model is used to fetch
+ * the data from the TodoTaskListUseCase
  */
 @HiltViewModel
-class UniversityListViewModel @Inject constructor(
-    private val universityListUseCase: UniversityListUseCase,
+class TodoTaskListViewModel @Inject constructor(
+    private val todotaskListUseCase: TodoTaskListUseCase,
 ) : ViewModel() {
 
-    private val _universityListValue = MutableStateFlow(UniversityState())
-    var universityListState: StateFlow<UniversityState> = _universityListValue
+    private val _todotaskListValue = MutableStateFlow(TodoTaskState())
+    var todoTaskListState: StateFlow<TodoTaskState> = _todotaskListValue
 
-    /** This function is used to get the channel list */
-    fun getAllUniversityList() = viewModelScope.launch(Dispatchers.IO) {
-        universityListUseCase().collect {
+    /** This function is used to get the  list */
+    fun getAllTodoTaskList() = viewModelScope.launch(Dispatchers.IO) {
+        todotaskListUseCase().collect {
             when (it) {
                 is ResponseState.Loading -> {
-                    System.out.println("kkkkk"+_universityListValue.value)
 
-                    _universityListValue.value = UniversityState(isLoading = true)
+                    _todotaskListValue.value = TodoTaskState(isLoading = true)
                 }
 
                 is ResponseState.Success -> {
-                    System.out.println("kkkkk"+_universityListValue.value)
-                    _universityListValue.value = UniversityState(universityList = it.data ?: emptyList())
+                    _todotaskListValue.value = TodoTaskState(todoTaskList = it.data ?: emptyList())
                 }
 
                 is ResponseState.Error -> {
-                    System.out.println("kkkkk"+_universityListValue.value)
 
-                    _universityListValue.value =
-                        UniversityState(error = it.message ?: "Unexpected Error")
+                    _todotaskListValue.value =
+                        TodoTaskState(error = it.message ?: "Unexpected Error")
                 }
             }
         }

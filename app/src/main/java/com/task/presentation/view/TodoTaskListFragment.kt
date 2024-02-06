@@ -5,11 +5,11 @@ import android.view.View
 import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.task.R
-import com.task.core.domain.model.UniversityList
+import com.task.core.domain.model.TodoTaskList
 import com.task.core.uicomponents.BaseFragment
-import com.task.databinding.FragmentNewsListBinding
-import com.task.presentation.adapter.UniversityListAdapter
-import com.task.presentation.viewmodel.UniversityListViewModel
+import com.task.databinding.TodoTaskListBinding
+import com.task.presentation.adapter.TodoTaskListAdapter
+import com.task.presentation.viewmodel.TodoTaskListViewModel
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -17,12 +17,12 @@ import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 
 /** This Fragment is used for
- * showing the list of UniversityList*/
+ * showing the list of TodoTaskList*/
 @AndroidEntryPoint
-class UniversityListFragment : BaseFragment<FragmentNewsListBinding>() {
-    private val viewModel: UniversityListViewModel by viewModels()
-    private lateinit var recyclerAdapter: UniversityListAdapter
-    override fun getFragmentView() = R.layout.university_list
+class TodoTaskListFragment : BaseFragment<TodoTaskListBinding>() {
+    private val viewModel: TodoTaskListViewModel by viewModels()
+    private lateinit var recyclerAdapter: TodoTaskListAdapter
+    override fun getFragmentView() = R.layout.todo_task_list
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -33,8 +33,8 @@ class UniversityListFragment : BaseFragment<FragmentNewsListBinding>() {
 
     /** This is to set up the recyclerview */
     private fun setUpRecyclerView() {
-        recyclerAdapter = UniversityListAdapter(requireContext(), arrayListOf())
-        binding.universityListRecyclerView.apply {
+        recyclerAdapter = TodoTaskListAdapter(requireContext(), arrayListOf())
+        binding.todoTaskListRecyclerView.apply {
             layoutManager = LinearLayoutManager(requireContext())
             adapter = recyclerAdapter
         }
@@ -44,7 +44,7 @@ class UniversityListFragment : BaseFragment<FragmentNewsListBinding>() {
      * from view model flows Coroutinescope with dispatcher main thread*/
     private fun observeData() {
         CoroutineScope(Dispatchers.Main).launch {
-            viewModel.universityListState.collectLatest {
+            viewModel.todoTaskListState.collectLatest {
                 when {
                     it.isLoading == true -> {
                         binding.progressBar.visibility = View.VISIBLE
@@ -54,9 +54,9 @@ class UniversityListFragment : BaseFragment<FragmentNewsListBinding>() {
                         binding.progressBar.visibility = View.GONE
                     }
 
-                    it.universityList?.isNotEmpty() == true -> {
+                    it.todoTaskList?.isNotEmpty() == true -> {
                         binding.progressBar.visibility = View.GONE
-                        recyclerAdapter.updateUniversityList(it.universityList as ArrayList<UniversityList>)
+                        recyclerAdapter.updateTodoTaskList(it.todoTaskList as ArrayList<TodoTaskList>)
                     }
                 }
             }
@@ -64,8 +64,8 @@ class UniversityListFragment : BaseFragment<FragmentNewsListBinding>() {
     }
 
     /** This function is used to call the api
-     * and get the all UniversityList*/
+     * and get the all todo task list*/
     private fun callApi() {
-        viewModel.getAllUniversityList()
+        viewModel.getAllTodoTaskList()
     }
 }

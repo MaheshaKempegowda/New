@@ -3,16 +3,14 @@ package com.task.core.data.dto
 import com.task.core.domain.model.TodoTaskList
 
 
-data class UniversityDTOItem(
-    val name: String? = "",
-    val code: String? = "",
-    val country: String? = "",
-){
-    fun toUniversityList(): TodoTaskList {
+data class TodoTaskDTOItem(
+    val title: String? = "",
+    val status: Boolean? = false
+) {
+    fun toTaskList(): TodoTaskList {
         return TodoTaskList(
-            name = name,
-            code = code,
-            country = country
+            title = title,
+            status = status
         )
     }
 }

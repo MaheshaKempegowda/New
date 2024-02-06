@@ -1,16 +1,15 @@
 package com.task.core.data.repository
 
 import com.task.core.data.data_source.NetworkApi
-import com.task.core.data.dto.UniversityListDTO
-import com.task.core.domain.repository.UniversityRepository
+import com.task.core.data.dto.TodoTaskListDTO
+import com.task.core.domain.repository.TodoTaskRepository
 import javax.inject.Inject
 
-class UniversityRepositoryImpl @Inject constructor(
+class TodoTaskRepositoryImpl @Inject constructor(
     private val networkApi: NetworkApi,
-) : UniversityRepository {
+) : TodoTaskRepository {
 
-
-    override suspend fun getAllUniversity(): UniversityListDTO {
-        return networkApi.getUniversityList()
+    override suspend fun getAllTodoTasks(): TodoTaskListDTO {
+        return networkApi.getTodoTaskList()
     }
 }
